@@ -1,0 +1,18 @@
+function binarySearchRecursive(arr, val) {
+  const search = (start, end) => {
+    if (start > end) {
+      return -1;
+    }
+
+    const mid = Math.floor((start + end) / 2);
+    if (arr[mid] === val) {
+      return mid;
+    } else if (arr[mid] < val) {
+      return search(mid + 1, end);
+    } else {
+      return search(start, mid - 1);
+    }
+  };
+
+  return search(0, arr.length - 1);
+}
