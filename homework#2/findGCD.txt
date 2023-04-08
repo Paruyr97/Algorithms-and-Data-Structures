@@ -1,0 +1,17 @@
+leetCode #1979. Find Greatest Common Divisor of Array
+
+const gcd = (a, b) => {
+    const reminder = a % b;
+
+    if (reminder === 0) {
+        return b;
+    }
+
+    return gcd(b, reminder);
+};
+
+const findGCD = function(nums) {
+    let min = Math.min(...nums);
+    let max = Math.max(...nums);
+    return gcd(max, min);
+};

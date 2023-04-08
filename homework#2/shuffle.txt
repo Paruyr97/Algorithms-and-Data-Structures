@@ -1,0 +1,11 @@
+leetCode - #1470. The k Strongest Values in an Array
+
+var shuffle = function(nums, n) {
+    const result = [];
+
+    for (let i = 0; i < n; ++i) {
+        result.push(nums[i], nums[n + i]);
+    }
+
+    return result;
+};

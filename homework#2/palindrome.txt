@@ -1,0 +1,17 @@
+leetCode #9 - Palindrome Number
+
+var isPalindrome = function(x) {
+    if (x < 0) {
+        return false;
+    }
+
+    let copyX = x;
+    let reversed = '';
+
+    while (copyX >= 1) {
+        reversed += copyX % 10;
+        copyX = Math.floor(copyX / 10);
+    }
+
+    return x === Number(reversed);
+};
