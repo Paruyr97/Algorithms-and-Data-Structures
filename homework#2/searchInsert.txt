@@ -17,5 +17,5 @@ var searchInsert = function(arr, target) {
       	}
     	}	
     
-    	return mid + 1;
+    	return target > arr[mid] ? mid + 1 : mid;
 };
