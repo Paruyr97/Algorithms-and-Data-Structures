@@ -1,0 +1,40 @@
+function partitionRandom(arr, start = 0, end = arr.length - 1) {
+  let i = start + 1;
+  let j = arr.length - 1;
+
+  let pivotIndex = Math.floor(Math.random() * (end - start)) + start + 1;
+  let pivot = arr[pivotIndex];
+
+  [arr[start], arr[pivotIndex]] = [arr[pivotIndex], arr[start]];
+
+  while (i <= j) {
+    while (arr[i] < pivot) {
+      ++i;
+    }
+
+    while (arr[j] > pivot) {
+      --j;
+    }
+
+    if (i <= j) {
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+      ++i;
+      --j;
+    }
+  }
+
+  [arr[start], arr[j]] = [arr[j], arr[start]];
+
+  return j;
+}
+
+function quickSort(arr, start = 0, end = arr.length - 1) {
+  if (start < end) {
+    const index = partitionRandom(arr, start, end);
+
+    quickSort(arr, start, index - 1);
+    quickSort(arr, index + 1, end);
+  }
+
+  return arr;
+}
