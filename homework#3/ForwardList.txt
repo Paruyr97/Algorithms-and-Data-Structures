@@ -1,0 +1,72 @@
+class Node {
+	constructor(value) {
+  	this.value = value;
+    this.next =  null;
+  }
+}
+
+class ForwardList {
+	constructor() {
+  	this.head = null;
+  }
+  
+  pushFront(value) {
+  	const node = new Node(value);
+    
+    if (!this.head) {
+    	this.head = node;
+    } else {
+    	node.next = this.head;
+      this.head = node;
+    }
+    
+    return this;
+  }
+  
+  print() {
+  	let current = this.head;
+    
+    if (!current) {
+    	console.log('empty');
+    }
+    
+    let result = current.value;
+    
+    while (current.next) {
+    	
+    	current = current.next;
+      result += ' --> ' + current.value;
+    }
+    
+    console.log(result)
+  }
+  
+  reverse() {
+    let current = this.head; 
+    
+    if (!current.value) {
+      return;
+    }
+    
+    let newHead;
+    
+    while (current) {
+      let node = new Node(current.value);
+      current = current.next;
+      node.next = newHead;
+      newHead = node;
+    }
+    
+    this.head = newHead;
+  }
+  
+  sort() {
+  	
+  }
+}
+
+const l = new ForwardList();
+l.pushFront(4).pushFront(2).pushFront(8);
+l.print()
+l.reverse()
+l.print()
