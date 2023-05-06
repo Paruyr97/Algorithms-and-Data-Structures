@@ -1,0 +1,102 @@
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.prev = null;
+    this.head = null;
+    this.greater = null;
+    this.smaller = null;
+  }
+}
+
+class SOLL {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.ascHead = null;
+    this.descHead = null;
+  }
+
+  pushFront(value) {
+    const node = new Node(value);
+
+    if (!this.head) {
+      this.head = node;
+      this.tail = node;
+      this.ascHead = node;
+      this.descHead = node;
+      return this;
+    }
+
+    node.next = this.head;
+    this.head.prev = node;
+    this.head = node;
+    this.putItInSortedOrder(node);
+    return this;
+  }
+
+  putItInSortedOrder(node) {
+    if (node.value < this.ascHead.value) {
+      node.greater = this.ascHead;
+      this.ascHead.smaller = node;
+      this.ascHead = node;
+      return;
+    } else if (node.value > this.descHead.value) {
+      node.smaller = this.descHead;
+      this.descHead.greater = node;
+      this.descHead = node;
+      return;
+    }
+
+    let current = this.ascHead;
+
+    while (current) {
+      if (node.value < current.value) {
+        current.smaller.greater = node;
+        node.smaller = current.smaller;
+        node.greater = current;
+        current.smaller = node;
+      }
+
+      current = current.greater;
+    }
+  }
+
+  printListBy(type) {
+    const res = [];
+    let current;
+    let next;
+
+    switch (type) {
+      case "asc":
+        current = this.ascHead;
+        next = "greater";
+        break;
+      case "desc":
+        current = this.descHead;
+        next = "smaller";
+        break;
+      case "head":
+        current = this.head;
+        next = "next";
+        break;
+      case "tail":
+        current = this.tail;
+        next = "prev";
+        break;
+    }
+
+    while (current) {
+      res.push(current.value);
+      current = current[next];
+    }
+
+    console.log(res);
+  }
+}
+
+let s = new SOLL();
+s.pushFront(3).pushFront(33).pushFront(22).pushFront(44);
+s.printListBy("asc");
+s.printListBy("desc");
+s.printListBy("head");
+s.printListBy("tail");
