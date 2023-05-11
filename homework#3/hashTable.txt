@@ -1,0 +1,122 @@
+class Node {
+	constructor(value) {
+  	this.value = value;
+    this.next =  null;
+  }
+}
+
+class ForwardList {
+	constructor() {
+  	this.head = null;
+  }
+  
+  pushFront(value) {
+  	const node = new Node(value);
+    
+    if (!this.head) {
+    	this.head = node;
+    } else {
+    	node.next = this.head;
+      this.head = node;
+    }
+    
+    return this;
+  }
+  
+  print() {
+  	let current = this.head;
+    
+    if (!current) {
+    	console.log('empty');
+    }
+    
+    let result = current.value;
+    
+    while (current.next) {
+    	
+    	current = current.next;
+      result += ' --> ' + current.value;
+    }
+    
+    console.log(result)
+  }
+}
+
+class HashTable {
+	constructor() {
+  	this.bucket = Array(11).fill(null);
+  	this.loadFactor = 0.6;
+    this.capacity = 0;
+  }
+  
+	hash(str) {
+    let hash = 0;
+    
+    for (let i = 0; i < str.length; i++) {
+      hash += str.charCodeAt(str[i]);
+    }
+    
+    return hash % this.bucket.length;
+  }
+  
+  _get(key) {
+  	const hash = this.hash(key);
+    
+    if (!this.bucket[hash]) { return; }
+    
+    let current = this.bucket[hash];
+    
+    while (current) {
+    	if (current.value[key]) {
+      	return current.value[key];
+      }
+      
+      current = current.next;
+    }
+  }
+  
+  _set(key, value) {
+  	
+  	const hash = this.hash(key);
+    
+    if (!this.bucket[hash]) {
+    	++this.capacity;
+    	const list = new ForwardList();
+      list.pushFront({ [key]: value });
+      this.bucket[hash] = list;
+      return;
+    }
+    console.log(this.bucket[hash])
+    this.bucket[hash].pushFront({ key: value });
+    this.resize();
+  }
+  
+  resize() {
+  	if (this.capacity / this.bucket.length < this.loadFactor) {
+    	return;
+    }
+    
+    const oldBucket = this.bucket;
+    
+    this.bucket = Array(oldBucket.length * 2).fill(null);
+    
+    this.bucket.forEach((el, idx) => {
+    	if (oldBucket[idx]) {
+      	this.bucket[idx] = oldBucket[idx];
+      }
+    })
+  }
+}
+
+let h = new HashTable();
+h._set('a', 1);
+h._set('f', 1);
+h._set('g', 1);
+h._set('d', 1);
+h._set('gg', 1);
+h._set('af', 1);
+h._set('av', 1);
+h._set('avv', 1);
+h._set('avvv', 1);
+
+console.log(h)
