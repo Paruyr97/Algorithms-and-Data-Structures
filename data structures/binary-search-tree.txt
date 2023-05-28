@@ -1,0 +1,106 @@
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class BST {
+  constructor() {
+    this.root = null;
+  }
+
+  insert(value) {
+    this.root = this.insertHelper(this.root, value);
+  }
+
+  insertHelper(node, value) {
+    if (node === null) {
+      return new TreeNode(value);
+    }
+
+    if (value < node.value) {
+      node.left = this.insertHelper(node.left, value);
+    } else {
+      node.right = this.insertHelper(node.right, value);
+    }
+
+    return node;
+  }
+
+  getMin(root = this.root) {
+    if (!root || !root.left) {
+      return root;
+    }
+
+    return this.getMin(root.left);
+  }
+
+  getMax(root = this.root) {
+    if (!root || !root.right) {
+      return root;
+    }
+
+    return this.getMax(root.right);
+  }
+
+  getHeight() {
+    return this.calculateHeight(this.root);
+  }
+
+  calculateHeight(root) {
+    if (!root) {
+      return -1;
+    }
+
+    const leftHeight = this.calculateHeight(root.left);
+    const rightHeight = this.calculateHeight(root.right);
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  preorder(root = this.root) {
+    if (!root) {
+      return;
+    }
+
+    console.log(root.value);
+    this.preorder(root.left);
+    this.preorder(root.right);
+  }
+
+  preorderIter() {
+    if (!this.root) {
+      return;
+    }
+
+    const stack = [this.root];
+
+    while (stack.length) {
+      const node = stack.pop();
+
+      console.log(node.value);
+
+      if (node.left) {
+        stack.push(node.left);
+      }
+
+      if (node.right) {
+        stack.push(node.right);
+      }
+    }
+  }
+}
+
+const bt = new BST();
+
+bt.insert(10);
+bt.insert(20);
+bt.insert(30);
+bt.insert(25);
+bt.insert(15);
+bt.insert(7);
+
+console.log(bt.preorder());
+console.log(bt.preorderIter());
