@@ -91,16 +91,63 @@ class BST {
       }
     }
   }
+
+  getPredessor(node = this.root) {
+    if (!node) {
+      return node;
+    }
+
+    if (node.left) {
+      return this.getMax(node.left);
+    }
+
+    let predessor = null;
+    let ancestor = this.root;
+
+    while (ancestor !== node) {
+      if (ancestor.value < node.value) {
+        predessor = ancestor;
+        ancestor = ancestor.right;
+      } else {
+        ancestor = ancestor.left;
+      }
+    }
+
+    return predessor;
+  }
+
+  getSuccessor(node = this.root) {
+    if (!node) {
+      return node;
+    }
+
+    if (node.right) {
+      return this.getMin(node.right);
+    }
+
+    let successor = null;
+    let ancestor = this.root;
+
+    while (ancestor !== node) {
+      if (ancestor.value < node.value) {
+        ancestor = ancestor.right;
+      } else {
+        successor = ancestor;
+        ancestor = ancestor.left;
+      }
+    }
+
+    return successor;
+  }
 }
 
 const bt = new BST();
 
-bt.insert(10);
-bt.insert(20);
 bt.insert(30);
-bt.insert(25);
-bt.insert(15);
-bt.insert(7);
-
-console.log(bt.preorder());
-console.log(bt.preorderIter());
+bt.insert(20);
+bt.insert(29);
+bt.insert(28);
+bt.insert(27);
+bt.insert(26);
+console.log(bt.root.left.right);
+console.log(bt.getSuccessor(bt.root.left.right));
